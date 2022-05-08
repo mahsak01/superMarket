@@ -4,19 +4,19 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="Provide")
-public class Provide {
+@Table(name="Provider")
+public class Provider {
 
 
     @Id
     @SequenceGenerator(
-            name = "provide_sequence",
-            sequenceName = "provide_sequence",
+            name = "provider_sequence",
+            sequenceName = "provider_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "provide_sequence"
+            generator = "provider_sequence"
     )
     private Long id;
 
@@ -24,8 +24,8 @@ public class Provide {
     @JoinColumn
     private User user;
 
-    @NotEmpty(message = "Please fill prudectId")
-    private Long prudectId;
+    @NotEmpty(message = "Please fill product Id")
+    private Long productId;
 
     public Long getId() {
         return id;
@@ -44,10 +44,10 @@ public class Provide {
     }
 
     public Long getPrudectId() {
-        return prudectId;
+        return productId;
     }
 
-    public void setPrudectId(Long prudectId) {
-        this.prudectId = prudectId;
+    public void setPrudectId(Long productId) {
+        this.productId = productId;
     }
 }

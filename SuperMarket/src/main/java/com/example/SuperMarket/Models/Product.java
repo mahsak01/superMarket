@@ -5,12 +5,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.*;
 
 @Entity
-@Table(name="Product")
+@Table(name = "Product")
 public class Product {
-
     @Id
     @SequenceGenerator(
             name = "product_sequence",
@@ -37,9 +36,9 @@ public class Product {
     @Size(min = 3, max = 255, message = "Please Enter price  between 1-255 character")
     private String price;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinColumn
-    private Customer customer;
+    private List<Customer> customer;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
@@ -54,8 +53,8 @@ public class Product {
     private Category category;
 
     @NotEmpty(message = "Please fill discount")
-    @Min(0)
-    @Max(100)
+    @Min(value = 0, message = "discount min is 0%")
+    @Max(value = 100, message = "discount max is 100%")
     private float discount;
 
     public Long getId() {
@@ -98,14 +97,6 @@ public class Product {
         this.price = price;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public Saleman getSaleman() {
         return saleman;
     }
@@ -122,19 +113,27 @@ public class Product {
         this.brands = brands;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public float getDiscount() {
         return discount;
     }
 
     public void setDiscount(float discount) {
         this.discount = discount;
+    }
+
+    public List<Customer> getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }
