@@ -9,8 +9,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
+    List<Product> getProductByBrandsAndCategoryAndSale(Brands brands, Category category, boolean sale);
     List<Product> getProductByBrandsAndCategory(Brands brands, Category category);
+
+    List<Product> getProductByBrandsAndSale(Brands brands, boolean sale);
     List<Product> getProductByBrands(Brands brands);
+
+    List<Product> getProductByCategoryAndSale(Category category, boolean sale);
     List<Product> getProductByCategory(Category category);
 
+    List<Product> getProductBySale(boolean sale);
 }

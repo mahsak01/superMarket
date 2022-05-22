@@ -6,6 +6,7 @@ import com.example.SuperMarket.Services.BrandsService;
 import com.example.SuperMarket.Services.CategoryService;
 import com.example.SuperMarket.Services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,7 @@ public class ProductController {
     BrandsService brandsService;
     CategoryService categoryService;
 
+
     @Autowired
     public ProductController(ProductService productService, BrandsService brandsService, CategoryService categoryService) {
         this.productService = productService;
@@ -29,9 +31,15 @@ public class ProductController {
         this.categoryService = categoryService;
     }
 
+
     @RequestMapping(method = RequestMethod.GET)
-    public List<Product> getProducts(@PathParam(value = "brand") Optional<Long> brand, @PathParam(value = "category") Optional<Long> category) {
+    public List<Product> getProducts(@PathParam(value = "brand") Optional<Long> brand,
+                                     @PathParam(value = "category") Optional<Long> category,
+                                     @PathParam(value = "sale") Optional<Boolean> sale) {
         return productService.getProducts(brand.isPresent() ? brandsService.getBrandById(brand.get()) : null,
-                category.isPresent() ? categoryService.getCategoryById(category.get()) : null);
+                category.isPresent() ? categoryService.getCategoryById(category.get()) : null,
+                sale.isPresent() ? sale.get() : false);
     }
+
+
 }

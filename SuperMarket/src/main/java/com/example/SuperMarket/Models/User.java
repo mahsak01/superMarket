@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name="User")
 public class User {
-
     @Id
     @SequenceGenerator(
             name = "name_sequence",
@@ -42,6 +41,7 @@ public class User {
     @Size(min = 8, max = 255, message = "Please Enter password between 8-255 character")
     private String password;
 
+    private Authorities authority;
 
     public Long getId() {
         return id;
@@ -97,5 +97,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Authorities getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(Authorities authority) {
+        this.authority = authority;
     }
 }

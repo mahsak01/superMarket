@@ -1,5 +1,7 @@
 package com.example.SuperMarket.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -36,9 +38,9 @@ public class Product {
     @Size(min = 3, max = 255, message = "Please Enter price  between 1-255 character")
     private String price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinColumn
-    private List<Customer> customer;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @JsonIgnore
+    private List<ProductCustomer> customer;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn
@@ -56,6 +58,8 @@ public class Product {
     @Min(value = 0, message = "discount min is 0%")
     @Max(value = 100, message = "discount max is 100%")
     private float discount;
+
+    private boolean sale;
 
     public Long getId() {
         return id;
@@ -119,14 +123,23 @@ public class Product {
 
     public void setDiscount(float discount) {
         this.discount = discount;
+        sale = discount != 0;
     }
 
-    public List<Customer> getCustomer() {
+    public List<ProductCustomer> getCustomer() {
         return customer;
     }
 
-    public void setCustomer(List<Customer> customer) {
+    public void setCustomer(List<ProductCustomer> customer) {
         this.customer = customer;
+    }
+
+    public boolean isSale() {
+        return sale;
+    }
+
+    public void setSale(boolean sale) {
+        this.sale = sale;
     }
 
     public Category getCategory() {

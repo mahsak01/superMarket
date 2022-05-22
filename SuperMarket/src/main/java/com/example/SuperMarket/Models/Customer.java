@@ -1,8 +1,8 @@
 package com.example.SuperMarket.Models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
 @Entity
 @Table(name="Customer")
 public class Customer {
@@ -23,11 +23,9 @@ public class Customer {
     @JoinColumn
     private User user;
 
-    @NotEmpty(message = "Please fill zipCode")
     @Size(min = 3, max = 255, message = "Please Enter zipCode  between 3-255 character")
     private String zipCode;
 
-    @NotEmpty(message = "Please fill address")
     @Size(min = 3, max = 255, message = "Please Enter address  between 3-255 character")
     private String address;
 
@@ -39,11 +37,11 @@ public class Customer {
         this.id = id;
     }
 
-    public User getName() {
+    public User getUser() {
         return user;
     }
 
-    public void setName(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

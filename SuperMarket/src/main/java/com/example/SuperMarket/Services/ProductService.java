@@ -1,9 +1,7 @@
 package com.example.SuperMarket.Services;
 
 
-import com.example.SuperMarket.Models.Brands;
-import com.example.SuperMarket.Models.Category;
-import com.example.SuperMarket.Models.Product;
+import com.example.SuperMarket.Models.*;
 import com.example.SuperMarket.Repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,19 +14,39 @@ import javax.validation.Valid;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductCustomerService productCustomerService;
 
     public void create(@RequestBody @Valid Product product) {
         productRepository.save(product);
     }
 
-    public List<Product> getProducts(Brands brand, Category category) {
+    public List<Product> getProducts(Brands brand, Category category, boolean sale) {
         if (brand == null && category != null) {
-            return productRepository.getProductByCategory(category);
+            if (sale){
+                return productRepository.getProductByCategoryAndSale(category, sale);
+            } else {
+                return productRepository.getProductByCategory(category);
+            }
         } else if (category == null && brand != null){
-            return productRepository.getProductByBrands(brand);
+            if (sale){
+                return productRepository.getProductByBrandsAndSale(brand, sale);
+            } else {
+                return productRepository.getProductByBrands(brand);
+            }
         } else if (category == null && brand == null) {
-            return productRepository.findAll();
+            if (sale) return productRepository.getProductBySale(sale);
+            else return productRepository.findAll();
         }
-        return productRepository.getProductByBrandsAndCategory(brand, category);
+        if (sale) {
+            return productRepository.getProductByBrandsAndCategoryAndSale(brand, category, sale);
+        } else {
+            return productRepository.getProductByBrandsAndCategory(brand, category);
+        }
+    }
+
+
+    public List<ProductCustomer> soldProducts() {
+        return productCustomerService.getAll();
     }
 }

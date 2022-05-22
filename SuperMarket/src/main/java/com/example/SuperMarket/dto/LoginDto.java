@@ -1,4 +1,4 @@
-package com.example.SuperMarket.Dto;
+package com.example.SuperMarket.dto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
