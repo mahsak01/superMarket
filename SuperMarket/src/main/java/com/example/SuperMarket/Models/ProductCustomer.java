@@ -17,6 +17,15 @@ public class ProductCustomer {
     @JoinColumn
     private Customer customer;
 
+
+    public ProductCustomer() {
+    }
+
+    public ProductCustomer(Product product, Customer customer) {
+        this.product = product;
+        this.customer = customer;
+    }
+
     public Product getProduct() {
         return product;
     }

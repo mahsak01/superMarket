@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 
 @Service
@@ -43,6 +44,13 @@ public class ProductService {
         } else {
             return productRepository.getProductByBrandsAndCategory(brand, category);
         }
+    }
+
+    public Product getProductById(Long id) throws Exception {
+        Optional<Product> product = productRepository.findById(id);
+
+        if (product.isPresent()) return product.get();
+        else throw new Exception("product not found");
     }
 
 

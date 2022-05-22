@@ -1,9 +1,11 @@
 package com.example.SuperMarket.Services;
 
 import com.example.SuperMarket.Models.Authorities;
+import com.example.SuperMarket.Models.Product;
+import com.example.SuperMarket.Models.ProductCustomer;
 import com.example.SuperMarket.Models.User;
 import com.example.SuperMarket.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.SuperMarket.dto.ProductCardDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,8 +18,15 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    final CustomerService customerService;
+    final ProductService productService;
+
+    public UserService(UserRepository userRepository, CustomerService customerService, ProductService productService) {
+        this.userRepository = userRepository;
+        this.customerService = customerService;
+        this.productService = productService;
+    }
 
     public User addNewUser(User user) throws Exception {
 
@@ -58,6 +67,17 @@ public class UserService implements UserDetailsService {
         if (user.isEmpty())
             return null;
         return user.get();
+    }
+
+
+    public List<ProductCustomer> getMyProducts(User user) throws Exception {
+        return customerService.getMyProducts(user);
+    }
+
+    public void addProductToCard(ProductCardDTO dto, User user) throws Exception {
+        Product product = productService.getProductById(dto.getProductId());
+
+        customerService.addProductToCard(product, user);
     }
 
     @Override

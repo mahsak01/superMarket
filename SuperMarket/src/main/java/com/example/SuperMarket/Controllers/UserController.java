@@ -1,6 +1,7 @@
 package com.example.SuperMarket.Controllers;
 
 
+import com.example.SuperMarket.dto.ProductCardDTO;
 import com.example.SuperMarket.dto.UserDTO;
 import com.example.SuperMarket.Models.Customer;
 import com.example.SuperMarket.Models.User;
@@ -53,11 +54,17 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/api/users/card")
-    public ResponseEntity<Object> card(Authentication authentication) {
+    public ResponseEntity<Object> card(Authentication authentication) throws Exception {
         User user = userService.searchByUsername(authentication.getName());
 
-        user.getAuthority().name();
+        return ResponseEntity.ok(new Response(Response.Status.SUCCESS, userService.getMyProducts(user)));
+    }
 
-        return ResponseEntity.ok("");
+    @RequestMapping(method = RequestMethod.POST, path = "/api/users/card/add")
+    public ResponseEntity<Object> addProductToCard(@RequestBody ProductCardDTO productCardDTO, Authentication authentication) throws Exception {
+        User user = userService.searchByUsername(authentication.getName());
+
+        userService.addProductToCard(productCardDTO, user);
+        return ResponseEntity.ok(new Response(Response.Status.SUCCESS,"product added to your card"));
     }
 }
